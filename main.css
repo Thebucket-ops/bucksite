@@ -254,13 +254,13 @@ footer{background-color: darkgrey; height: 120px; margin-bottom: 0;
 
 
 
-#blog{
+#games{
     background-color: rgba(255, 255, 255, 0);
     
     margin-top: 0;
     height: 40vh;
     flex:content;
-    background-image: url(images/buck&buck/buck&buck.png);    /* add desolate img */
+    background-image: url(images/barren/barren.png);    /* add desolate img */
     background-repeat: no-repeat;
 }
 

@@ -17,11 +17,14 @@ window.addEventListener('load',function(){
         constructor(width,height){
             this.width=width;
             this.height=height;
+
             this.play=false;
-            this.playButtonWidth=100;
-            this.playButtonHeight=100;
+            this.playButtonWidth=200;
+            this.playButtonHeight=200;
             this.playButtonX=this.width/2 -(this.playButtonWidth/2);
             this.playButtonY=this.height/2 -(this.playButtonHeight/2);
+            this.playButtonImage = document.getElementById("playbutt")
+
             this.player=new Player(this);
                         
             this.input= new inputMaster();
@@ -183,7 +186,8 @@ window.addEventListener('load',function(){
                 this.points.draw(context, this.pointsspecial, this.record);
             }else{
                 context.fillStyle= "blue";
-                context.fillRect(this.playButtonX, this.playButtonY, this.playButtonWidth, this.playButtonHeight);
+                // context.fillRect(this.playButtonX, this.playButtonY, this.playButtonWidth, this.playButtonHeight);
+                context.drawImage(this.playButtonImage, this.playButtonX, this.playButtonY);
             }
         }
         // addRail(){
