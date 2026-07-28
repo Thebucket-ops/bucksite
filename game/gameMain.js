@@ -47,9 +47,7 @@ window.addEventListener('load',function(){
         }
         update(deltaTime){
             if(this.play){
-            this.player.update(this.input.key_up, this.input.key_down, 
-            this.input.key_left, this.input.key_r, this.input.key_e,
-            this.input.key_space, this.check);
+
             
             if(this.obstacleTimer>this.obstacleInterval && this.obstacleCap>this.obstacles.length){ 
                 this.addRail();
@@ -125,6 +123,9 @@ window.addEventListener('load',function(){
                 }
             });
 
+            this.player.update(this.input.key_up, this.input.key_down, 
+            this.input.key_left, this.input.key_r, this.input.key_e,
+            this.input.key_space, this.check, deltaTime);
 
             this.points.update(deltaTime, this.pointsspecial);
 

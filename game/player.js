@@ -3,11 +3,14 @@
 export class Player {
     constructor(game){
         this.game=game;
-        this.width=60;
-        this.height=120;
+        this.width=90;
+        this.height=170;
         this.x=this.game.width/6-this.width;
         this.y=this.game.height/2-this.height;
         this.image =document.getElementById('player');
+        this.frameX= 0;
+        this.frameY=0;
+        this.walkFrames= 20; //indicates the amount of frames are in the "walking" animation
         this.speed=0;
         this.vspeed=0;
         this.maxSpeed=5;
@@ -19,9 +22,13 @@ export class Player {
         this.gameRestart=false;
         this.onGround=false;
         this.onRail=false;
+
+        this.fps=20;
+        this.frameInterval=1000/this.fps;
+        this.frameTimer=0;
     } 
     update(key_up, key_down, key_left, key_r,
-        key_e, key_space, check                     //add key r to restart game
+        key_e, key_space, check, deltaTime                     //add key r to restart game
     ){
         // movement
 
@@ -68,15 +75,23 @@ export class Player {
         if (this.x>this.game.width-this.width) this.x=this.game.width-this.width;
         // if (this.y<0) this.y=0;
         
-        
+
+        if(this.frameTimer>this.frameInterval){
+            if (this.frameX<this.walkFrames-1 && !this.gameRestart){
+            this.frameX+=1;
+            this.frameTimer=0;
+            }else{this.frameX=0;}
+        }else{
+            this.frameTimer+=deltaTime;
+        }
     }
     draw(context){
         context.fillStyle= "blue";
         context.shadowColor = "black";
         context.shadowBlur = 0;
-        context.fillRect(this.x, this.y, this.width, this.height);
+        // context.fillRect(this.x, this.y, this.width, this.height);
         
-        context.drawImage(this.image, 0, 0, this.width, this.height, 
+        context.drawImage(this.image, this.width*this.frameX , 0, this.width, this.height, 
             this.x, this.y, this.width, this.height);
     }
 
