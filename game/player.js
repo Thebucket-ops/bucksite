@@ -69,20 +69,38 @@ export class Player {
         }
 
         this.y+= this.vspeed;
-
+        this.x+=this.speed;
+        if(this.speed>0){
+            this.speed-=1;
+        }
         //Boundaries
-        if (this.x<0) this.x=0;
-        if (this.x>this.game.width-this.width) this.x=this.game.width-this.width;
+        // if (this.x<0) this.x=0;
+        // if (this.x>this.game.width-this.width) this.x=this.game.width-this.width;
         // if (this.y<0) this.y=0;
         
 
-        if(this.frameTimer>this.frameInterval){
-            if (this.frameX<this.walkFrames-1 && !this.gameRestart){
-            this.frameX+=1;
-            this.frameTimer=0;
-            }else{this.frameX=0;}
-        }else{
-            this.frameTimer+=deltaTime;
+        if(this.onGround){
+            this.frameY=0;
+            if(this.frameTimer>this.frameInterval){
+
+
+                if (this.frameX<this.walkFrames-1 && !this.gameRestart ){
+                    this.frameX+=1;                 
+                    this.frameTimer=0;
+                }else{this.frameX=0;}
+            }else{
+                this.frameTimer+=deltaTime;
+            }
+        }else if(this.onRail){
+            this.frameY=1;          //placeholder he currently uses the same frame he would use if he falls
+            this.frameX=1;
+        }else if (!this.onGround && !this.onRail){
+            this.frameY=1;
+            if(this.vspeed<0){
+                this.frameX=0;          //changes frame of jump animation based on if hes falling or not
+            }else{
+                this.frameX=1;
+            }
         }
     }
     draw(context){
@@ -91,7 +109,7 @@ export class Player {
         context.shadowBlur = 0;
         // context.fillRect(this.x, this.y, this.width, this.height);
         
-        context.drawImage(this.image, this.width*this.frameX , 0, this.width, this.height, 
+        context.drawImage(this.image, this.width*this.frameX , this.height*this.frameY, this.width, this.height, 
             this.x, this.y, this.width, this.height);
     }
 

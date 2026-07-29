@@ -112,7 +112,7 @@ window.addEventListener('load',function(){
                     if((((this.player.x+this.player.width)-rail.gracespace>rail.x) && (this.player.x<=(rail.x+rail.width)) &&
                         ((this.player.y+this.player.height>rail.y)) && !this.player.gameRestart)){
                         this.player.defeat();
-                        
+                        this.player.speed= this.obstacleSpeed;
                     }
 
                 ////////////////
