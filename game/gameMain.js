@@ -4,6 +4,7 @@ import { Player } from "./player.js";
 import { inputMaster } from "./input.js";
 import { rail1, rail2, rail3, rail4, Rails } from "./rails.js";
 import { points } from "./points.js";
+import { Skate } from "./skate.js";
 //
 window.addEventListener('load',function(){
     const canvas= document.getElementById('ominousbucket')
@@ -30,6 +31,7 @@ window.addEventListener('load',function(){
             this.input= new inputMaster();
             //add fuunctions that call player, input, and enemies
             this.points= new points(this);
+            this.Skate=new Skate(this);
 
             this.obstacles= [];
             this.obstacleTimer=0;
@@ -51,7 +53,7 @@ window.addEventListener('load',function(){
             
             if(this.obstacleTimer>this.obstacleInterval && this.obstacleCap>this.obstacles.length){ 
                 this.addRail();
-                this.obstacleTimer=0;
+                this.obstacleTimer=0;               //ADD RANDOM OBSTACLE AT SEMI RANDOM TIME
                 this.obstacleInterval=(Math.floor(Math.random()*this.obstacleDelay)*500)+500;
             }else{
                 this.obstacleTimer+=deltaTime; 
@@ -61,14 +63,14 @@ window.addEventListener('load',function(){
                 this.obstacleSpeed+=1;
                 this.obstacleSpeedTimer=0;
                 if (this.obstacleDelay>=1){
-                this.obstacleDelay-=0.1;
+                this.obstacleDelay-=0.1;        //REDUCES THE OBSTACLE INTERVAL AS THE GAME GOES ON
                 }
             }else{
                 this.obstacleSpeedTimer+=deltaTime; 
             }
 
-            this.check=this.onRailcheck();
-            this.yCheck= this.onRailYcheck();
+            this.check=this.onRailcheck();      //RETURNS BOOLEANS TO CHECK IF THE PLAYER IS ON THE HITBOX OF RAIL ON X COORDS
+            this.yCheck= this.onRailYcheck(); //CHECKS IF HES ALSO ON TOP OF SOME (wait this might cause problems)   
 
             this.obstacles.forEach(rail => {
                 rail.update(deltaTime, this.obstacleSpeed, this.check, this.yCheck);
@@ -112,7 +114,8 @@ window.addEventListener('load',function(){
                     if((((this.player.x+this.player.width)-rail.gracespace>rail.x) && (this.player.x<=(rail.x+rail.width)) &&
                         ((this.player.y+this.player.height>rail.y)) && !this.player.gameRestart)){
                         this.player.defeat();
-                        this.player.speed= this.obstacleSpeed;
+                        this.player.speed= this.obstacleSpeed;      //if player on obstacle count as defeat
+                        this.Skate.speed= this.obstacleSpeed;
                     }
 
                 ////////////////
@@ -126,7 +129,7 @@ window.addEventListener('load',function(){
             this.player.update(this.input.key_up, this.input.key_down, 
             this.input.key_left, this.input.key_r, this.input.key_e,
             this.input.key_space, this.check, deltaTime);
-
+            this.Skate.update();
             this.points.update(deltaTime, this.pointsspecial);
 
 
@@ -140,7 +143,7 @@ window.addEventListener('load',function(){
             if(this.points.points>this.record){this.record=this.points.points;}
             
             this.points= new points(this);
-
+            this.Skate= new Skate(this);
             this.obstacleTimer=0;
             this.obstacleInterval=3000;
             this.obstacleDelay=7;
@@ -185,14 +188,16 @@ window.addEventListener('load',function(){
                 this.obstacles.forEach(rail => {rail.draw(context)});
                 //draw player and enemies
                 this.points.draw(context, this.pointsspecial, this.record);
+                this.Skate.draw(context);
             }else{
                 context.fillStyle= "blue";
                 // context.fillRect(this.playButtonX, this.playButtonY, this.playButtonWidth, this.playButtonHeight);
                 context.drawImage(this.playButtonImage, this.playButtonX, this.playButtonY);
-            }
+            }   //draws the start button
         }
-        // addRail(){
-        addRail(){//Make it so based on how much time has passed, the enemies become stronger
+
+
+        addRail(){
             let random = Math.floor(Math.random()*4)+1;
             if (random==1){
                 this.obstacles.push(new rail1(this));
@@ -254,6 +259,7 @@ window.addEventListener('load',function(){
         this.player=new Player(this);
                         
         this.input= new inputMaster();
+        this.Skate= new Skate(this);
             
         this.points= new points(this);
         this.obstacles= [];
