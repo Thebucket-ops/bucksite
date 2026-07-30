@@ -20,8 +20,11 @@ export class Skate {
     draw(context){
         if (this.game.player.gameRestart && this.game.player.onGround){
             // context.fillRect(this.x, this.y, this.width, this.height);
-            context.drawImage(this.image, this.width*this.frameX , 170*this.frameY, this.width, this.height, 
-            this.x, this.y, this.width,170); //why do i do this to me
+                    context.fillStyle="black";
+        context.shadowColor = "black";
+        context.shadowBlur = 0;
+            context.drawImage(this.image, this.width*this.frameX , 170*this.frameY, this.width, 170, 
+            this.x, this.y, this.width,this.height); //why do i do this to me
             
         }
     }
