@@ -126,9 +126,7 @@ window.addEventListener('load',function(){
                 }
             });
 
-            this.player.update(this.input.key_up, this.input.key_down, 
-            this.input.key_left, this.input.key_r, this.input.key_e,
-            this.input.key_space, this.check, deltaTime);
+            this.player.update(this.input.key_r, this.input.key_e, this.input.key_space, this.check, deltaTime);
             this.Skate.update();
             this.points.update(deltaTime, this.pointsspecial);
 
@@ -184,11 +182,13 @@ window.addEventListener('load',function(){
         }
         draw(context){
             if(this.play){
-                this.player.draw(context);
+                
                 this.obstacles.forEach(rail => {rail.draw(context)});
                 //draw player and enemies
                 this.points.draw(context, this.pointsspecial, this.record);
                 this.Skate.draw(context);
+                this.player.draw(context);
+
             }else{
                 context.fillStyle= "blue";
                 // context.fillRect(this.playButtonX, this.playButtonY, this.playButtonWidth, this.playButtonHeight);

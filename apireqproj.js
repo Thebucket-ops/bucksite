@@ -46,22 +46,41 @@ document.getElementById("seal").onclick = function(){
 
 var url = "https://api.github.com/users/Thebucket-ops/repos?per_page=100";
 
-document.querySelector("select").addEventListener('change',$.get)
-  var sortType= 'stargazers_count';
+
+  // var sortType= 'stargazers_count';
+
   if (document.querySelector("select").value=='stars'){
    sortType='stargazers_count';
   }else if (document.querySelector("select").value=='updated'){
    sortType='updated_at';
   }else if (document.querySelector("select").value=='created'){
-    sortType='created_at';
+   sortType='created_at';
   }
 
-$.get(url, function(sortType) {
+
+
+document.querySelector("select").addEventListener('change', putboxes());
+
+function putboxes(){
+    try{document.getElementById('repobox').remove();}catch(err){}  //removes all pre existing boxes to replace them
+
+    $.get(url, function(data) {
   console.log(document.querySelector("select").value);
 
+  if (document.querySelector("select").value=='stars'){
+   var sortedRepos = data.sort((a,b) => parseFloat(b.stargazers_count) - parseFloat(a.stargazers_count));
+  }else if (document.querySelector("select").value=='updated'){
+   var sortedRepos = data.sort((a,b) => parseFloat(b.updated_at) - parseFloat(a.updated_at));
+  }else if (document.querySelector("select").value=='created'){ 
+   var sortedRepos = data.sort((a,b) => parseFloat(b.created_at) - parseFloat(a.created_at));
+  }else if(document.querySelector("select").value=='AtoZ'){
+    var sortedRepos = data.sort((a,b) => parseFloat(b.name) - parseFloat(a.name));
+  }else if(document.querySelector("select").value=='ZtoA'){
+    var sortedRepos = data.sort((a,b) => parseFloat(a.name) - parseFloat(b.name));
+  }
 
+  // var sortedRepos = data.sort((a,b) => parseFloat(b.sortType) - parseFloat(a.sortType));
 
-  var sortedRepos = sortType.sort((a,b) => parseFloat(b) - parseFloat(a));
   console.log(sortedRepos);
 
 
@@ -84,13 +103,17 @@ $.get(url, function(sortType) {
       console.log(repoName);
     }
 
+   
 
     
   $(document).ready(function() {
+
+    
     for (let i =0;i<sortedRepos.length;i++){
       
       var a = document.createElement("a");
       a.setAttribute("class", "repoLink"+i);
+      a.setAttribute("id","repobox")
       a.setAttribute("href", repoLink[i]);
       a.innerHTML='<div class="projectsel" id="postit'+i+'"><div id="projContent"><pre id="repoTitle'+i+'" class="pen"></pre></br><pre id="repoDescription'+i+'" class="projDesc"></pre></div><img id="imageProj" class="projImg'+i+'" src="'+repoImg[i]+'" alt="proj img"></div>';
       document.getElementById("main").appendChild(a);
@@ -116,4 +139,6 @@ $.get(url, function(sortType) {
     }
   })
 
-})
+});
+console.log("done")
+};

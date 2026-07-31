@@ -13,7 +13,11 @@ export class Skate {
     }
     update(){
         if (this.game.player.gameRestart){
-            this.x+=this.speed/2;
+            if(this.game.player.onGround){
+                this.x+=this.speed-5;
+            }else{this.x+=this.speed;}
+            
+            
             console.log(this.x);
         }
     }

@@ -11,6 +11,7 @@ export class Player {
         this.frameX= 0;
         this.frameY=0;
         this.walkFrames= 20; //indicates the amount of frames are in the "walking" animation
+        this.frameFallWidth=199;// falling frames have different lenght
         this.speed=0;
         this.vspeed=0;
         this.maxSpeed=5;
@@ -27,8 +28,7 @@ export class Player {
         this.frameInterval=1000/this.fps;
         this.frameTimer=0;
     } 
-    update(key_up, key_down, key_left, key_r,
-        key_e, key_space, check, deltaTime                     //add key r to restart game
+    update(key_r, key_e, key_space, check, deltaTime                     //add key r to restart game
     ){
         // movement
 
@@ -70,8 +70,8 @@ export class Player {
 
         this.y+= this.vspeed;
         this.x+=this.speed;
-        if(this.speed>0){
-            this.speed-=1;
+        if(this.speed>0 && this.onGround){
+            this.speed-=0.5;
         }
         //Boundaries
         // if (this.x<0) this.x=0;
@@ -102,15 +102,36 @@ export class Player {
                 this.frameX=1;
             }
         }
+
+
+        if (this.gameRestart){      //handles falling frames
+            if (this.onGround){
+                this.frameY=2;
+                if (this.speed<=0){
+                    this.frameX=2       
+                }else{
+                    this.frameX=1;
+                }
+            }else{
+                this.frameY=2;
+                this.frameX=0;
+            }
+        }
+
     }
     draw(context){
         context.fillStyle= "blue";
         context.shadowColor = "black";
         context.shadowBlur = 0;
         // context.fillRect(this.x, this.y, this.width, this.height);
-        
-        context.drawImage(this.image, this.width*this.frameX , this.height*this.frameY, this.width, this.height, 
+        if(!this.gameRestart){   
+            context.drawImage(this.image, this.width*this.frameX , this.height*this.frameY, this.width, this.height, 
             this.x, this.y, this.width, this.height);
+        }else{
+            context.drawImage(this.image, this.frameFallWidth*this.frameX , this.height*this.frameY, this.frameFallWidth, this.height, 
+            this.x, this.y, this.frameFallWidth, this.height);
+        }
+
     }
 
     defeat(){
