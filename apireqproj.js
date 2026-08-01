@@ -7,7 +7,7 @@ let splashtext =["Made by Mary!","Eat lemons -Sun Tzu",
     "insert splash text here","now with 300% more grammatical errors!","spdow","from Italy with fury", "Rasberry Pi Pico my beloved"
 ];
 
-//need 68 sealion texts
+
 
 let sealioncaretext =[  
 "this is Fred, hes a sea lion","Fred notices you",
@@ -15,8 +15,11 @@ let sealioncaretext =[
 ];
 
 
+
+
+
 document.getElementById("splash").innerHTML=splashtext[Math.floor(Math.random()*splashtext.length)];
-//ricordate de differenziare in base alla pagina in cui si è (progetti o main)
+
 
 let sealionclicks=0;
 document.getElementById("tooltiptext").textContent=sealioncaretext[(sealionclicks%sealioncaretext.length)];
@@ -24,6 +27,7 @@ document.getElementById("tooltiptext").textContent=sealioncaretext[(sealionclick
 
 document.getElementById("seal").onclick = function(){
   sealionclicks+=1;
+  if (sealioncaretext[(sealionclicks%sealioncaretext.length)]==sealioncaretext[0]){sealionclicks+=1;}
     
     document.getElementById('sealionid').play();
   //TODO CHANGE TO TEXT SHOWING UP ON TOP
@@ -44,6 +48,7 @@ document.getElementById("seal").onclick = function(){
 
 
 
+
 var url = "https://api.github.com/users/Thebucket-ops/repos?per_page=100";
 
 
@@ -57,11 +62,13 @@ var url = "https://api.github.com/users/Thebucket-ops/repos?per_page=100";
    sortType='created_at';
   }
 
+putboxes(false);
+
+document.querySelector(".dropdownmenu").addEventListener("change", putboxes);
 
 
-document.querySelector("select").addEventListener('change', putboxes());
-
-function putboxes(){
+function putboxes(check){
+  if(check){window.location.reload();}
     try{document.getElementById('repobox').remove();}catch(err){}  //removes all pre existing boxes to replace them
 
     $.get(url, function(data) {
@@ -70,13 +77,11 @@ function putboxes(){
   if (document.querySelector("select").value=='stars'){
    var sortedRepos = data.sort((a,b) => parseFloat(b.stargazers_count) - parseFloat(a.stargazers_count));
   }else if (document.querySelector("select").value=='updated'){
-   var sortedRepos = data.sort((a,b) => parseFloat(b.updated_at) - parseFloat(a.updated_at));
+   var sortedRepos = data.sort((a,b) => Date.parse(b.updated_at) - Date.parse(a.updated_at));
   }else if (document.querySelector("select").value=='created'){ 
-   var sortedRepos = data.sort((a,b) => parseFloat(b.created_at) - parseFloat(a.created_at));
+   var sortedRepos = data.sort((a,b) => Date.parse(b.created_at) - Date.parse(a.created_at));
   }else if(document.querySelector("select").value=='AtoZ'){
     var sortedRepos = data.sort((a,b) => parseFloat(b.name) - parseFloat(a.name));
-  }else if(document.querySelector("select").value=='ZtoA'){
-    var sortedRepos = data.sort((a,b) => parseFloat(a.name) - parseFloat(b.name));
   }
 
   // var sortedRepos = data.sort((a,b) => parseFloat(b.sortType) - parseFloat(a.sortType));
@@ -131,14 +136,15 @@ function putboxes(){
     $("#repoDescription"+i).html(repoDescription[i]);
 
     randomcolor = postitcolors[Math.floor(Math.random() * (postitcolors.length))];
-    console.log(randomcolor);
+    // console.log(randomcolor);
 
     $("#postit"+i).css('background-color', randomcolor);
-    $("#postit"+i).css('rotate', ''+((randomSign)* Math.floor(Math.random()*90))+'deg');
+    $("#postit"+i).css('rotate', ''+((randomSign)* Math.floor(Math.random()*90))+'deg'); // this dont work
     
     }
   })
 
 });
-console.log("done")
+  console.log("done")
+  
 };

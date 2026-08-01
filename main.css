@@ -11,6 +11,8 @@
     background-position: right;
     background-size: contain;
     overflow-x: hidden;
+    
+    scrollbar-width: none;
 }
 
 pre{ 
@@ -159,6 +161,7 @@ footer{background-color: darkgrey; height: 120px; margin-bottom: 0;
     height: 38vh;
     width: 21vw;
     margin: 1vw;
+    -webkit-margin-start: 0.5vw;
     margin-bottom: 3vh;
     margin-top: 1vh;
     
@@ -263,7 +266,14 @@ footer{background-color: darkgrey; height: 120px; margin-bottom: 0;
     background-image: url(images/barren/barren.png);    /* add desolate img */
     background-repeat: no-repeat;
 }
-
+#topgames{
+    color: #4e4e08;
+    font-size: 4vh;
+    padding: 2%;
+    padding-bottom: 1%;
+    padding-top: 0;
+    margin: 0;
+} 
 .blogel{
     display: inline-block;
     background-color: #16d646;
@@ -402,7 +412,7 @@ footer{background-color: darkgrey; height: 120px; margin-bottom: 0;
 
 
 
-/* TODO fix this not showing up*/
+
 #tooltiptext {
   border: #161515 solid 1px;
   font-family: monospace;

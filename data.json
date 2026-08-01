@@ -1,17 +1,19 @@
 {
-"splashtext" : ["Made by Mary!","Eat lemons -Sun Tzu",
+"splashtext" : ["<a href='https://youtu.be/tYzMYcUty6s?si=yoMmFTHR7PbMrvK4'>NEVER GIVE UP</a>","Made by Mary!",
+    "Eat lemons -Sun Tzu",
     "random splash texts my beloveds","100% organic no OGM!",
     "li mortacci.","daje.","running out of splash texts ideas very quikcly",
-    "Banana.","NEVER GIVE UP","still too little splash texts",
+    "Banana.","still too little splash texts",
     "go listen to Takanaka, hes a cool ass japanese guy!",
     "theres only 1 pacific rim film",
-    "insert splash text here","now with 300% more grammatical errors!","spdow","from Italy with fury"
+    "insert splash text here","now with 300% more grammatical errors!","spdow","from Italy with fury", "Rasberry Pi Pico my beloved"
 ],
 
 "sealioncaretext" : [
-    "this is Fred, hes a sea lion","the sea lion notices you",
-    "you clicked a sea lion, he happy :3", "you gave the sea lion belly rubs, he's enthusiastic about it","the sea lion really likes you"
-    ]   
+"this is Fred, hes a sea lion","Fred notices you",
+"you clicked Fred, hes happy :3", "you gave the Fred belly rubs, he's enthusiastic about it","Fred really likes you"
+
+]
 
 
 }
