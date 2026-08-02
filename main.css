@@ -405,8 +405,10 @@ footer{background-color: darkgrey; height: 120px; margin-bottom: 0;
         }
 #seal:hover{
     border-color: #2f00b1;
-    box-shadow: 0 0 90px rgba(251, 255, 0, 0.6);
-    
+    -webkit-filter: drop-shadow(0px 0px 45px #fbff00);
+    filter: drop-shadow(0px 0px 45px #fbff00);
+    /* box-shadow: 0 0 90px #fbff0099;
+     */
 }
 
 
