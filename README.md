@@ -12,6 +12,7 @@ The project section features all projects from my github and allows to order the
 ## Minigame
 Now onto the real stuff, this site also has a minigame at the bottom you can play:
 forget dino chrome, dinosaurs have evolved and they skate now
+You can press space to make a big jump or E to make a small one, go for the highest score you can reach!
 ![Minigame](/images/screenshots/minigame.png)
 
 ## The seal
