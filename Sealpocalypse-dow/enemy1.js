@@ -189,14 +189,11 @@ export class baseSeal extends Enemy{
         
     }
     draw(context){
-        super.draw(context);
-
-
         if(this.lr){
             context.drawImage(this.image, this.width*this.frameX, this.height*this.frameY+1, this.width-1, this.height+1, 
             this.x, this.y, this.width, this.height);
         }else{
-            context.drawImage(this.image, this.width*this.frameX, this.height*this.frameY+1, this.width-1, this.height+1, 
+            context.drawImage(this.image, this.width*this.frameX+1, this.height*this.frameY+1, this.width-1, this.height+1, 
             this.x, this.y, this.width, this.height);
         }
     }
