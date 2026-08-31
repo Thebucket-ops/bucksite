@@ -12,7 +12,7 @@ export class BoxBase{
         this.damage=damage;
         this.knockback=knockback
 
-        this.fps=7;
+        this.fps=14;
         this.frameInterval=1000/this.fps;
         this.frameTimer=0;
         this.hashit=false;
@@ -28,7 +28,7 @@ export class BoxBase{
             this.immunepl=false
         }else{this.immunepl=true}
         
-        if(this.frameTimer<250){
+        if(this.frameTimer<100){
 
             if(((this.x+this.width)>=this.game.player.x&&(this.game.player.x+this.game.player.width>this.x))&&
             ((this.y+this.height)>=this.game.player.y&&(this.game.player.y+this.game.player.height>this.y))

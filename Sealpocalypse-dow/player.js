@@ -29,6 +29,7 @@ export class Player {
         this.damage=5;
         this.immunetime=1000;
         this.immunetimer=0;
+        this.idleTimer=0;
 
         this.attack=false;
         this.attackTimer=0;
@@ -44,9 +45,7 @@ export class Player {
         if(this.immunetimer<this.immunetime){
             this.immunetimer+=deltaTime;
             this.immune=true;
-            console.log(this.immune);
         }else{
-            console.log(this.immune);
             this.immune=false;
         }
 
@@ -115,7 +114,11 @@ export class Player {
                 }
             }else{
                 this.frameY=0;
-                this.frameX++;
+                if(this.idleTimer>150){
+                    this.idleTimer=0;
+                    this.frameX++;
+                }else{this.idleTimer+=deltaTime;}
+                
                 if(this.frameX>1){
                     this.frameX=0;
                 }

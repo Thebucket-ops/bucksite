@@ -2,7 +2,7 @@ console.log("sup mah fellas");
 
 import { Player } from './player.js'
 import { inputMaster } from './input.js'
-import {  baseSeal } from './enemy1.js'
+import { baseSeal, behemoth, damager, sprinter } from './enemy1.js'
 import { BoxBase } from './hurtbox.js'
 import { cursorevents } from './cursorcords.js';
 import { gameText, menuText } from './textmanager.js';
@@ -65,6 +65,10 @@ window.addEventListener('load',function(){
             this.randY=0;
             
             this.points=0;
+            this.damagercap=3;
+            this.damageramount=0;
+            this.behemotcap=2;
+            this.behemotamount=0;
         }
 
 
@@ -142,9 +146,20 @@ window.addEventListener('load',function(){
                     this.player.attackCooldown-=20;//the player shoots faster as the game progresses 
                 }
             }
+            if(this.points>9000){
+                if((this.points-9000)/4000>this.damagercap-2){
+                    this.damagercap+=1;
+                }
+            }
+            if(this.points>16000){
+                if((this.points-16000)/8000>this.behemotcap-1){
+                    this.behemotcap+=1
+                }
+            }
+
 
             if(this.explosive){
-                this.crosshairAngle+=3;
+                this.crosshairAngle+=1.5;
                 if(this.crosshairAngle==360){
                     this.crosshairAngle=0;
                 }
@@ -180,7 +195,7 @@ window.addEventListener('load',function(){
                     document.getElementById('canvas1').style.cursor="none";
                     this.alphastart+=0.007;
                     if(this.menuText.readyGame){
-                        this.alphablack-=0.0015;
+                        this.alphablack-=0.0015*3;
                     }
                     if(this.alphablack<=0){
                         this.gamestart=true
@@ -225,16 +240,14 @@ window.addEventListener('load',function(){
             if(this.explosive){
                 this.crosshair=document.getElementById('crosshairRed');
                 
-                // context.save();
-                // context.translate(this.cursorX,this.cursorY);
-                // context.rotate(this.crosshairAngle);
+                context.save();
+                context.translate(this.cursorinputs.cursorX,this.cursorinputs.cursorY);
+                context.rotate(this.crosshairAngle);
                 context.shadowColor = "orange";
                 context.shadowBlur = 7;
                 context.drawImage(this.crosshair, 0, 0, 51, 51, 
-                this.cursorinputs.cursorX-40, this.cursorinputs.cursorY-40, 81, 81);
-                
-                // context.restore();
-
+                -40, -40, 81, 81);
+                context.restore();//FUCK YEA IT WORKS
             }else{
                 this.crosshair=document.getElementById('crosshair');
                 context.shadowColor = "yellow";
@@ -283,9 +296,24 @@ window.addEventListener('load',function(){
             var i=0;
             for( i;(i<ennumb||this.enemies.length<this.enemyCap);i++){
                 this.randomizeSpawnLocation();
-                this.enemies.push(new baseSeal(this, this.bonusHp, this.randX, this.randY, this.bonusSpeed));      
+                var rand = Math.floor(Math.random()*86)
+
+                if(this.points>16000&&this.player.damage>this.bonusHp+3&&
+                    this.behemotcap>this.behemotamount&&rand>=70){
+                    this.behemotamount+=1;
+                    this.enemies.push(new behemoth(this, this.bonusHp, this.randX, this.randY, this.bonusSpeed))
+                }else if(this.points>9000&&
+                    this.damagercap>this.damageramount&&rand>=60&&rand<70){
+                    this.damageramount+=1;
+                    this.enemies.push(new damager(this, this.bonusHp, this.randX, this.randY, this.bonusSpeed))
+                }else if(this.points>4000&&rand>50&&rand<60){
+                    this.enemies.push(new sprinter(this, this.bonusHp, this.randX, this.randY, this.bonusSpeed))
+                }else{
+                    this.enemies.push(new baseSeal(this, this.bonusHp, this.randX, this.randY, this.bonusSpeed));
+                }
+        
             }
-            console.log(this.enemies);
+
         }
         checkEnemyDamage(){
             this.enemies.forEach(enemy=>{
@@ -311,7 +339,14 @@ window.addEventListener('load',function(){
             this.enemies.forEach(enemy=>{
                 if(enemy.dead){//add timer to leave them dead for a bit before removing them?
                     var index = this.enemies.indexOf(enemy);
-                   
+                    
+                    if (enemy.id==2){
+                        this.damageramount-=1;
+                    }
+                    if(enemy.id==3){
+                        this.behemotamount-=1;
+                    }
+
                     if(this.points>1700){
                         var rand= Math.floor(Math.random()*18)
                         if(rand==1){
@@ -363,6 +398,11 @@ window.addEventListener('load',function(){
             this.randY=0;
             
             this.points=0;
+
+            this.damagercap=3;
+            this.damageramount=0;
+            this.behemotcap=2;
+            this.behemotamount=0;
         }
 
         drawline(cursorX, cursorY){

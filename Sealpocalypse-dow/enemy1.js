@@ -1,71 +1,15 @@
 import { Player } from "./player.js";
 import { BoxBase } from "./hurtbox.js";
 
-class Enemy{
-    constructor(game, hp, x , y, speed){
-       
-        this.game=game;
-        //Change the id up HERE when i get the model
-    
-        this.frameX=0;
-        this.frameY=0;
 
-        this.fps=60;
-        this.frameInterval=1000/this.fps;
-        this.frameTimer=0;
-        this.vspeed=0;
-        this.xspeed=0;
-        this.isAttacking=false;
-        this.attacktime=1000;
-        this.attacktimer=0;
-    }
-    update(deltaTime){
-        
 
-            
-        if(this.frameTimer>this.frameInterval){
-            this.frameTimer=0;
-
-            //check if near player, if so, start attack
-            //  if(this.frameX< this.frameY) this.frameX++;  //frame timer
 
         
-        }else{
-            this.frameTimer+=deltaTime;
-        }
-  
-    }
-    draw(context){
-        // context.fillStyle="black";
-        // context.fillRect(this.x, this.y, this.width, this.height);
-        // if(this.x>this.game.player.x+this.game.player.width/2){
-        //     context.drawImage(this.image, this.width*this.frameX+this.width, this.height*this.frameY+this.width, -this.width, -this.height, 
-        //     this.x, this.y, this.width, this.height);
-        // }else{
-        //     context.drawImage(this.image, this.width*this.frameX, this.height*this.frameY, this.width, this.height, 
-        //     this.x, this.y, this.width, this.height);
-        // }
 
-    }
-
-
-        attack(x, y, damage, knock, deltaTime,lr){
-            if(!this.isAttacking){
-                this.isAttacking=true;
-                this.frameX=0;
-            }
-            if(this.frameX==4&&!this.hitboxcreated){
-                this.game.hitboxes.push(new BoxBase(this.game, x, y, damage, knock, lr));
-                this.hitboxcreated=true;
-            }
-            this.attacktimer+=deltaTime;
-        }
-}
 
 //remember to import them
-export class baseSeal extends Enemy{
+export class baseSeal{
     constructor(game, hp, x, y, speed){
-        super();
         this.image=document.getElementById('Enemy1')
         this.game=game;
         this.width=120;
@@ -78,7 +22,7 @@ export class baseSeal extends Enemy{
         this.frameY=0;
         this.walkframes=7;
         this.attackframes=6;
-        this.fps=7;
+        this.fps=14;
         this.attackframeInterval=1000/this.fps;
         this.lr=false;
         this.hitboxcreated=false;
@@ -88,8 +32,6 @@ export class baseSeal extends Enemy{
         this.id=0; //defines the type of enemy
 
         this.basespeed=1+speed;
-        this.attacktime=1000;
-        this.attacktimer=0;
 
         this.deltaX=0;
         this.deltaY=0;
@@ -99,12 +41,14 @@ export class baseSeal extends Enemy{
         this.dead=false;
         this.distance=0;
 
-        
+        this.vspeed=0;
+        this.xspeed=0;
+        this.isAttacking=false;
+        this.attacktime=800;
+        this.attacktimer=0;
 
     }
     update(deltaTime, playerX, playerY){
-
-        super.update(deltaTime);
         this.deltaX=playerX+this.game.player.width/2-(this.x+this.width/2);
         this.deltaY=playerY+this.game.player.height/2-(this.y+this.height/2);
         this.distance=Math.sqrt((this.deltaX*this.deltaX)+(this.deltaY*this.deltaY))
@@ -188,6 +132,19 @@ export class baseSeal extends Enemy{
         if(this.hp<=0){this.dead=true}
         
     }
+
+    attack(x, y, damage, knock, deltaTime,lr){
+            if(!this.isAttacking){
+                this.isAttacking=true;
+                this.frameX=0;
+            }
+            if(this.frameX==4&&!this.hitboxcreated){
+                this.game.hitboxes.push(new BoxBase(this.game, x, y, damage, knock, lr));
+                this.hitboxcreated=true;
+            }
+            this.attacktimer+=deltaTime;
+    }
+
     draw(context){
         if(this.lr){
             context.drawImage(this.image, this.width*this.frameX, this.height*this.frameY+1, this.width-1, this.height+1, 
@@ -196,5 +153,83 @@ export class baseSeal extends Enemy{
             context.drawImage(this.image, this.width*this.frameX+1, this.height*this.frameY+1, this.width-1, this.height+1, 
             this.x, this.y, this.width, this.height);
         }
+    }
+}
+
+export class sprinter extends baseSeal{
+    constructor(game, hp, x, y, speed){
+        super(game, hp, x, y, speed);
+        this.hp=(hp+3)*2
+        this.basespeed=2.5+speed;
+        this.id=1;
+    }
+    update(deltaTime, playerX, playerY){
+        super.update(deltaTime, playerX, playerY);
+    }
+    draw(context){
+        context.shadowColor="rgb(179, 255, 0)"
+        context.shadowBlur=6;
+        if(this.lr){
+            context.drawImage(this.image, this.width*this.frameX, this.height*this.frameY+1, this.width-1, this.height+1, 
+            this.x, this.y, this.width, this.height);
+        }else{
+            context.drawImage(this.image, this.width*this.frameX+1, this.height*this.frameY+1, this.width-1, this.height+1, 
+            this.x, this.y, this.width, this.height);
+        }
+        context.shadowBlur=0;
+    }
+}
+
+export class damager extends baseSeal{
+    constructor(game, hp, x, y, speed){
+        super(game, hp, x, y, speed);
+        this.hp=(hp+3)+5
+        this.basespeed=1+speed*0.5;
+        this.damage=7;
+        this.id=2;
+        this.knockback=20;
+    }
+    update(deltaTime, playerX, playerY){
+        super.update(deltaTime, playerX, playerY);
+    }
+    draw(context){
+        context.shadowColor="rgb(223, 65, 44)"
+        context.shadowBlur=6;
+        if(this.lr){
+            context.drawImage(this.image, this.width*this.frameX, this.height*this.frameY+1, this.width-1, this.height+1, 
+            this.x, this.y, this.width, this.height);
+        }else{
+            context.drawImage(this.image, this.width*this.frameX+1, this.height*this.frameY+1, this.width-1, this.height+1, 
+            this.x, this.y, this.width, this.height);
+        }
+        context.shadowBlur=0;
+    }
+}
+
+export class behemoth extends baseSeal{
+    constructor(game, hp, x, y, speed){
+        super(game, hp, x, y, speed);
+        this.hp=(hp+3)*14
+        this.basespeed=1+speed*0.3;
+        this.damage=5;
+        this.id=3;
+        this.width=160;
+        this.height=120;
+        this.knockback=30;
+    }
+    update(deltaTime, playerX, playerY){
+        super.update(deltaTime, playerX, playerY);
+    }
+    draw(context){
+        context.shadowColor="rgb(36, 40, 255)"
+        context.shadowBlur=6;
+        if(this.lr){
+            context.drawImage(this.image, 120*this.frameX, 90*this.frameY+1, 120-1, 90+1, 
+            this.x, this.y, this.width, this.height);
+        }else{
+            context.drawImage(this.image, 120*this.frameX+1, 90*this.frameY+1, 120-1, 90+1, 
+            this.x, this.y, this.width, this.height);
+        }
+        context.shadowBlur=0;
     }
 }

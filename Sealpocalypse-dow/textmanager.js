@@ -110,7 +110,7 @@ export class menuText{
         context.fillStyle= "rgba(238, 255, 0,"+this.alpha+")";
         context.font = "130px Bungee Spice";
         context.shadowColor = "rgba(4, 0, 255,"+this.alpha+")";    
-        context.shadowBlur = 3;
+        context.shadowBlur = 12;
         context.fillText("SEALPOCALYPSE", 410, this.game.height/2-200);
 //cool fonts: BBH Bartle Bungee Spice Anta
 
@@ -121,10 +121,15 @@ export class menuText{
         context.fillRect(this.startx+4, this.starty+4, this.startwidth-8, this.startheight-8);
 
         context.fillStyle= "rgba(0, 0, 0,"+this.alpha+")";
-        context.font = "80px Anta";
+        context.font = "bold 80px Quantico";
         context.shadowColor = "rgba(4, 0, 255,"+this.alpha+")";    
         context.shadowBlur = 3;
         context.fillText("PLAY", this.startx+140, this.starty+110);
 
+        context.font = "bold 40px Quantico";
+        context.fillStyle= "rgba(212, 219, 255,"+this.alpha+")";
+        context.shadowColor = "rgba(196, 193, 255,"+this.alpha+")";    
+        context.fillText("MOVE: WASD/arrow keys", this.startx+670, 950);
+        context.fillText("SHOOT: left mouse click", this.startx+670, 1000);
     }
 }
