@@ -94,10 +94,10 @@ export class points{
             if(this.game.player.gameRestart){   //draw game over
                 
                 context.fillStyle= "black";
-                context.font = "40px Monospace";
+                context.font = "80px Monospace";
                 context.fillText("Game Over", this.game.width/2, this.game.height/2-50);
 
-                context.font = "20px Monospace";
+                context.font = "40px Monospace";
                 context.fillText("Press [R] to restart", this.game.width/2+110, this.game.height/2-16);
             }
         }
